@@ -58,6 +58,27 @@ jobs:
           haxelib run lime config ANDROID_NDK_ROOT "$ANDROID_HOME/ndk/21.4.7075529"
           haxelib run lime config JAVA_HOME "$JAVA_HOME"
 
+      - name: Prepare app icon from animania-assets repository
+        shell: bash
+        run: |
+          mkdir -p native-game/assets
+          curl --fail --location --silent --show-error \
+            https://raw.githubusercontent.com/gonjohan6-dotcom/animania-assets/main/appIcon.png \
+            --output /tmp/animania-appIcon.png
+          python3 -m pip install --quiet Pillow
+          python3 - <<'PY'
+          from PIL import Image, ImageOps
+          source = Image.open("/tmp/animania-appIcon.png").convert("RGBA")
+          # Keep the full original artwork visible inside a square Android icon.
+          source.thumbnail((460, 460), Image.Resampling.LANCZOS)
+          canvas = Image.new("RGBA", (512, 512), (12, 12, 16, 255))
+          x = (512 - source.width) // 2
+          y = (512 - source.height) // 2
+          canvas.alpha_composite(source, (x, y))
+          canvas.save("native-game/assets/icon.png", "PNG")
+          print(f"Prepared 512x512 app icon from source {Image.open('/tmp/animania-appIcon.png').size}")
+          PY
+
       - name: Build native Android game
         run: haxelib run lime build native-game/Project.xml android -debug
 
