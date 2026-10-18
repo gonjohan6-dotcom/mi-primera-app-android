@@ -1,8 +1,8 @@
 {
-  "name": "vector-studio-android",
+  "name": "animania-anfroid-port",
   "version": "1.0.0",
   "private": true,
-  "description": "Editor de dibujo vectorial SVG para Android",
+  "description": "ANIMANIA! : ANFROID PORT para Android",
   "scripts": {
     "build": "vite build",
     "android:sync": "npm run build && cap sync android"
