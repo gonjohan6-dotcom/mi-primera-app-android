@@ -12,7 +12,10 @@
     "@capacitor/android": "^6.2.1",
     "@capacitor/core": "^6.2.1",
     "@ffmpeg/ffmpeg": "0.12.10",
-    "@ffmpeg/core": "0.12.6"
+    "@ffmpeg/core": "0.12.6",
+    "@ffmpeg/util": "0.12.2",
+    "@capacitor/filesystem": "^6.0.4",
+    "@capacitor/share": "^6.0.3"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.2.1",
