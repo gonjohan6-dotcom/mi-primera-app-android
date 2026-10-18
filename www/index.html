@@ -3,29 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#101014">
-  <title>Mi Aplicacion</title>
-  <style>
-    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #101014; color: #f5f5f7; }
-    main { width: min(90%, 520px); padding: 28px; border: 1px solid #303039; border-radius: 22px; background: #19191f; text-align: center; }
-    h1 { margin-top: 0; }
-    p { color: #c4c4ce; line-height: 1.6; }
-    button { border: 0; border-radius: 12px; padding: 12px 18px; color: white; background: #6255e7; font-size: 1rem; }
-  </style>
+  <meta name="theme-color" content="#101114">
+  <meta name="description" content="Convierte MP3 a OGG sin conexión.">
+  <title>Audio OGG</title>
 </head>
 <body>
-  <main>
-    <h1>Mi Aplicacion</h1>
-    <p>El proyecto Android está conectado. Aquí podrás colocar tu HTML, CSS, JavaScript e imágenes.</p>
-    <button id="test">Probar aplicación</button>
-    <p id="message" aria-live="polite"></p>
-  </main>
-  <script>
-    document.getElementById('test').addEventListener('click', () => {
-      document.getElementById('message').textContent = '¡Funciona correctamente!';
-    });
-  </script>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand-mark">♫</div>
+      <div><span class="eyebrow">CONVERSOR LOCAL</span><h1>Audio <span>OGG</span></h1></div>
+      <div class="offline"><i></i> SIN INTERNET</div>
+    </header>
+    <main>
+      <section class="intro">
+        <p class="kicker">TU AUDIO, TU TELÉFONO</p>
+        <h2>Convierte música.<br><em>Sin salir de aquí.</em></h2>
+        <p class="sub">Tus archivos se procesan en el dispositivo. No se suben a ningún servidor.</p>
+      </section>
+      <section class="panel">
+        <input id="fileInput" type="file" accept=".mp3,audio/mpeg,audio/mp3" multiple hidden>
+        <button id="chooseBtn" class="dropzone" type="button">
+          <span class="upload-icon">↑</span>
+          <strong>Seleccionar archivos MP3</strong>
+          <span>Elige uno o varios audios de tu teléfono</span>
+          <small>FORMATO DE ENTRADA · MP3</small>
+        </button>
+        <div id="fileList" class="file-list" aria-live="polite"><p class="empty">Aún no has seleccionado ningún audio.</p></div>
+        <div class="quality">
+          <div><label for="quality">Calidad de OGG</label><p>Mayor calidad = archivo generalmente más grande</p></div>
+          <select id="quality">
+            <option value="3">Normal · Q3</option>
+            <option value="5" selected>Alta · Q5</option>
+            <option value="7">Muy alta · Q7</option>
+          </select>
+        </div>
+        <button id="convertBtn" class="convert" type="button" disabled><span>⇄</span> Convertir a OGG</button>
+        <div class="progress-wrap" id="progressWrap" hidden>
+          <div class="progress-copy"><span id="status">Preparando conversor…</span><span id="percent">0%</span></div>
+          <div class="track"><div id="progressBar"></div></div>
+        </div>
+        <p id="notice" class="notice" role="status">Conversión privada, gratuita y sin conexión.</p>
+      </section>
+      <section id="resultsSection" class="results" hidden><div class="results-heading"><h3>Archivos convertidos</h3><span id="resultCount"></span></div><div id="results"></div></section>
+      <footer><span class="footer-dot"></span> FUNCIONA SIN INTERNET DESPUÉS DE INSTALARSE</footer>
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>
