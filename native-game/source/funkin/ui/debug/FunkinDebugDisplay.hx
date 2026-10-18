@@ -28,6 +28,7 @@ class FunkinDebugDisplay extends Sprite
     var textColor:Int;
     var fps:Int = 0;
     var fpsPeak:Int = 0;
+    var lastFrameTime:Float = 0;
     var background:Shape;
     var infoDisplay:TextField;
 
@@ -37,6 +38,7 @@ class FunkinDebugDisplay extends Sprite
         this.x = x;
         this.y = y;
         textColor = color;
+        lastFrameTime = Lib.getTimer();
         backgroundOpacity = 0.5;
         buildDebugDisplay(false);
         addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -82,7 +84,8 @@ class FunkinDebugDisplay extends Sprite
         while (times.length > 0 && times[0] < currentTime - 1000.0)
             times.shift();
 
-        deltaTimeout += event.deltaTime;
+        deltaTimeout += currentTime - lastFrameTime;
+        lastFrameTime = currentTime;
         if (deltaTimeout < UPDATE_DELAY) return;
 
         fps = times.length;
