@@ -1,6 +1,6 @@
 {
-  "appId": "com.johan.audiogg",
-  "appName": "Audio OGG",
+  "appId": "com.johan.vectorstudio",
+  "appName": "Vector Studio",
   "webDir": "dist",
   "bundledWebRuntime": false
 }
