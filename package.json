@@ -1,19 +1,15 @@
 {
-  "name": "audio-ogg-offline",
+  "name": "vector-studio-android",
   "version": "1.0.0",
   "private": true,
-  "description": "Conversor local MP3 a OGG para Android",
+  "description": "Editor de dibujo vectorial SVG para Android",
   "scripts": {
-    "copy:ffmpeg": "node scripts/copy-ffmpeg.mjs",
-    "build": "npm run copy:ffmpeg && vite build",
+    "build": "vite build",
     "android:sync": "npm run build && cap sync android"
   },
   "dependencies": {
     "@capacitor/android": "^6.2.1",
     "@capacitor/core": "^6.2.1",
-    "@ffmpeg/ffmpeg": "0.12.10",
-    "@ffmpeg/core": "0.12.6",
-    "@ffmpeg/util": "0.12.2",
     "@capacitor/filesystem": "^6.0.4",
     "@capacitor/share": "^6.0.3"
   },
