@@ -1,4 +1,4 @@
-name: Compilar APK Android
+name: Compilar APK Audio OGG
 
 on:
   push:
@@ -14,34 +14,30 @@ jobs:
     steps:
       - name: Descargar repositorio
         uses: actions/checkout@v4
-
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
+          cache: npm
       - name: Configurar Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-
-      - name: Instalar dependencias web
+      - name: Instalar dependencias
         run: npm install
-
+      - name: Compilar web con conversor local
+        run: npm run build
       - name: Crear proyecto Android
         run: npx cap add android
-
-      - name: Sincronizar archivos web
+      - name: Sincronizar proyecto Android
         run: npx cap sync android
-
       - name: Compilar APK de prueba
         working-directory: android
         run: ./gradlew assembleDebug
-
-      - name: Publicar APK como artefacto
+      - name: Publicar APK
         uses: actions/upload-artifact@v4
         with:
-          name: Mi-Aplicacion-APK
+          name: Audio-OGG-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
