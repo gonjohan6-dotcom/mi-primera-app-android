@@ -2,6 +2,7 @@
 <project>
     <meta title="ANIMANIA! : ANDROID PORT" package="com.johan.animaniaandroidport" version="1.0.0" company="ANIMANIA" />
     <app main="Main" path="export" file="ANIMANIA-ANDROID-PORT" />
+    <icon path="assets/icon.png" />
     <window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="true" />
     <window orientation="landscape" />
     <source path="source" />
