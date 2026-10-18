@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+    <meta title="ANIMANIA! : ANDROID PORT" package="com.johan.animaniaandroidport" version="1.0.0" company="ANIMANIA" />
+    <app main="Main" path="export" file="ANIMANIA-ANDROID-PORT" />
+    <window width="1280" height="720" fps="60" background="#000000" hardware="true" vsync="true" />
+    <window orientation="landscape" />
+    <source path="source" />
+    <haxelib name="flixel" />
+    <haxedef name="FLX_NO_DEBUG" if="final" />
+    <assets path="assets" rename="assets" />
+    <android permission="INTERNET" />
+    <android minimum-sdk-version="23" />
+    <android target-sdk-version="35" />
+</project>
