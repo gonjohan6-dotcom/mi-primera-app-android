@@ -2,51 +2,78 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#101114">
-  <meta name="description" content="Convierte MP3 a OGG sin conexión.">
-  <title>Audio OGG</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#292a2e">
+  <meta name="description" content="Editor de dibujo vectorial SVG para Android.">
+  <title>Vector Studio</title>
 </head>
 <body>
   <div id="app">
     <header class="topbar">
-      <div class="brand-mark">♫</div>
-      <div><span class="eyebrow">CONVERSOR LOCAL</span><h1>Audio <span>OGG</span></h1></div>
-      <div class="offline"><i></i> SIN INTERNET</div>
+      <div class="logo">V</div>
+      <div class="brand"><h1>Vector <span>Studio</span></h1><p>DIBUJO VECTORIAL</p></div>
+      <button id="newBtn" class="top-action" title="Nuevo proyecto">＋</button>
+      <button id="openBtn" class="top-action" title="Abrir SVG">↥</button>
+      <button id="saveBtn" class="top-action primary" title="Guardar proyecto SVG">Guardar</button>
+      <input id="openInput" type="file" accept=".svg,image/svg+xml" hidden>
     </header>
-    <main>
-      <section class="intro">
-        <p class="kicker">TU AUDIO, TU TELÉFONO</p>
-        <h2>Convierte música.<br><em>Sin salir de aquí.</em></h2>
-        <p class="sub">Tus archivos se procesan en el dispositivo. No se suben a ningún servidor.</p>
-      </section>
-      <section class="panel">
-        <input id="fileInput" type="file" accept=".mp3,audio/mpeg,audio/mp3" multiple hidden>
-        <button id="chooseBtn" class="dropzone" type="button">
-          <span class="upload-icon">↑</span>
-          <strong>Seleccionar archivos MP3</strong>
-          <span>Elige uno o varios audios de tu teléfono</span>
-          <small>FORMATO DE ENTRADA · MP3</small>
-        </button>
-        <div id="fileList" class="file-list" aria-live="polite"><p class="empty">Aún no has seleccionado ningún audio.</p></div>
-        <div class="quality">
-          <div><label for="quality">Calidad de OGG</label><p>Mayor calidad = archivo generalmente más grande</p></div>
-          <select id="quality">
-            <option value="3">Normal · Q3</option>
-            <option value="5" selected>Alta · Q5</option>
-            <option value="7">Muy alta · Q7</option>
-          </select>
+    <nav class="toolbar" aria-label="Herramientas">
+      <button class="tool active" data-tool="pen" title="Pincel">✎<span>Pincel</span></button>
+      <button class="tool" data-tool="eraser" title="Borrador">⌫<span>Borrar</span></button>
+      <button class="tool" data-tool="select" title="Seleccionar y mover">↖<span>Selección</span></button>
+      <button class="tool" data-tool="nodes" title="Editar nodos">◇<span>Nodos</span></button>
+      <button class="tool" data-tool="rect" title="Rectángulo">▱<span>Rectángulo</span></button>
+      <button class="tool" data-tool="ellipse" title="Círculo o elipse">◯<span>Elipse</span></button>
+      <button class="tool" data-tool="hand" title="Mover espacio de trabajo">✥<span>Mover vista</span></button>
+    </nav>
+    <main class="workspace">
+      <aside class="left-panel">
+        <section class="panel-section">
+          <h2>Trazo</h2>
+          <label class="color-row">Color <input id="colorInput" type="color" value="#202124"></label>
+          <label class="range-label">Grosor <strong id="widthValue">5</strong></label>
+          <input id="widthInput" type="range" min="1" max="40" value="5">
+          <label class="fill-row"><input id="fillInput" type="checkbox"> Rellenar formas</label>
+        </section>
+        <section class="panel-section layers-panel">
+          <div class="section-heading"><h2>Capas</h2><button id="addLayerBtn" title="Añadir capa">＋</button></div>
+          <div id="layersList" class="layers-list"></div>
+          <div class="layer-actions">
+            <button id="renameLayerBtn">Renombrar</button>
+            <button id="deleteLayerBtn">Eliminar</button>
+          </div>
+          <div class="layer-actions">
+            <button id="upLayerBtn">↑ Subir</button>
+            <button id="downLayerBtn">↓ Bajar</button>
+          </div>
+        </section>
+        <section class="panel-section">
+          <h2>Documento</h2>
+          <p class="hint">Lienzo 900 × 600</p>
+          <p class="hint">El espacio gris también conserva tus dibujos.</p>
+          <button id="exportPngBtn" class="wide-btn">Exportar PNG</button>
+          <button id="exportSvgBtn" class="wide-btn secondary">Exportar SVG</button>
+        </section>
+      </aside>
+      <section class="stage-area">
+        <div class="stage-head"><span id="toolStatus">Pincel activo</span><div class="zoom-controls"><button id="zoomOutBtn">−</button><span id="zoomLabel">100%</span><button id="zoomInBtn">＋</button><button id="fitBtn">Ajustar</button></div></div>
+        <div class="stage-wrap" id="stageWrap">
+          <svg id="stage" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Espacio de dibujo vectorial">
+            <defs>
+              <pattern id="gridPattern" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M 24 0 L 0 0 0 24" fill="none" stroke="#414247" stroke-width="1"/></pattern>
+            </defs>
+            <rect id="workspaceBg" x="-10000" y="-10000" width="20000" height="20000" fill="#292a2e"/>
+            <rect id="gridBg" x="-10000" y="-10000" width="20000" height="20000" fill="url(#gridPattern)" opacity=".25"/>
+            <rect id="pageShadow" x="350" y="200" width="900" height="600" fill="#000" opacity=".25" rx="2" transform="translate(7 8)"/>
+            <rect id="page" x="350" y="200" width="900" height="600" fill="#fff" stroke="#d5d5d5" stroke-width="1"/>
+            <g id="drawingLayerRoot"></g>
+            <g id="selectionOverlay" pointer-events="none"></g>
+          </svg>
         </div>
-        <button id="convertBtn" class="convert" type="button" disabled><span>⇄</span> Convertir a OGG</button>
-        <div class="progress-wrap" id="progressWrap" hidden>
-          <div class="progress-copy"><span id="status">Preparando conversor…</span><span id="percent">0%</span></div>
-          <div class="track"><div id="progressBar"></div></div>
-        </div>
-        <p id="notice" class="notice" role="status">Conversión privada, gratuita y sin conexión.</p>
+        <div class="stage-footer"><span>SVG · VECTORES EDITABLES</span><span id="coordsLabel">X: — · Y: —</span><span>Fuera del lienzo: conservado</span></div>
       </section>
-      <section id="resultsSection" class="results" hidden><div class="results-heading"><h3>Archivos convertidos</h3><span id="resultCount"></span></div><div id="results"></div></section>
-      <footer><span class="footer-dot"></span> FUNCIONA SIN INTERNET DESPUÉS DE INSTALARSE</footer>
     </main>
+    <footer class="app-footer"><span id="statusMessage">Listo para dibujar.</span><span>Vector Studio · Proyecto SVG</span></footer>
   </div>
   <script type="module" src="/src/main.js"></script>
 </body>
