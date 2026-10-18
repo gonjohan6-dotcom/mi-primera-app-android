@@ -1,6 +1,6 @@
 {
-  "appId": "com.johan.animaniaanfroidport",
-  "appName": "ANIMANIA! : ANFROID PORT",
+  "appId": "com.johan.animaniaandroidport",
+  "appName": "ANIMANIA! : ANDROID PORT",
   "webDir": "dist",
   "bundledWebRuntime": false
 }
