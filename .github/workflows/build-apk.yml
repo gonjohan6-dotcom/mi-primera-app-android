@@ -1,44 +1,71 @@
-name: Build ANIMANIA! Android APK
+name: Build ANIMANIA! Native Android APK
 
 on:
   push:
     branches: [main]
+    paths:
+      - "native-game/**"
+      - ".github/workflows/build-apk.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  build-native-android:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-      - name: Install dependencies
-        run: npm install
-      - name: Build black-screen web app
-        run: npm run build
-      - name: Add Android platform
-        run: npx cap add android
-      - name: Sync Android assets
-        run: npx cap sync android
-      - name: Build APK
-        working-directory: android
-        run: ./gradlew assembleDebug
-      - name: Rename APK
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk "ANIMANIA! - ANDROID PORT.apk"
-      - name: Upload APK
+          java-version: "17"
+
+      - name: Set up Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: "4.3.6"
+          neko-version: "2.3.0"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android build packages
+        run: |
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" "ndk;27.2.12479018"
+
+      - name: Install Haxe libraries
+        run: |
+          haxelib setup ~/haxelib
+          haxelib install hxcpp --quiet
+          haxelib install lime --quiet
+          haxelib install openfl --quiet
+          haxelib install flixel --quiet
+
+      - name: Configure Lime Android SDK
+        run: |
+          haxelib run lime config ANDROID_SDK "$ANDROID_HOME"
+          haxelib run lime config ANDROID_NDK "$ANDROID_HOME/ndk/27.2.12479018"
+
+      - name: Build native Android game
+        run: haxelib run lime build native-game/Project.xml android -debug
+
+      - name: Find and name APK
+        shell: bash
+        run: |
+          APK="$(find native-game/export -type f -name '*.apk' -print -quit)"
+          if [ -z "$APK" ]; then
+            echo "Lime did not produce an APK. Check the build logs above."
+            exit 1
+          fi
+          cp "$APK" "ANIMANIA! - ANDROID PORT.apk"
+
+      - name: Upload native APK
         uses: actions/upload-artifact@v4
         with:
-          name: ANIMANIA-ANDROID-PORT-APK
+          name: ANIMANIA-NATIVE-ANDROID-PORT-APK
           path: "ANIMANIA! - ANDROID PORT.apk"
           if-no-files-found: error
