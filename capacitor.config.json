@@ -1,5 +1,6 @@
 {
-  "appId": "com.demo.miaplicacion",
-  "appName": "Mi Aplicacion",
-  "webDir": "www"
+  "appId": "com.johan.audiogg",
+  "appName": "Audio OGG",
+  "webDir": "dist",
+  "bundledWebRuntime": false
 }
