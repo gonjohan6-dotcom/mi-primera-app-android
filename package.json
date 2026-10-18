@@ -1,8 +1,8 @@
 {
-  "name": "animania-anfroid-port",
+  "name": "animania-android-port",
   "version": "1.0.0",
   "private": true,
-  "description": "ANIMANIA! : ANFROID PORT para Android",
+  "description": "ANIMANIA! : ANDROID PORT para Android",
   "scripts": {
     "build": "vite build",
     "android:sync": "npm run build && cap sync android"
